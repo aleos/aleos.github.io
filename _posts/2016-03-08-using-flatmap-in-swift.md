@@ -1,6 +1,6 @@
 ---
 title: Using flatMap in Swift
-date: 2012-01-06T05:32:00Z
+date: 2016-03-08T18:21:00Z
 tags: [swift, ios, dev]
 ---
 
