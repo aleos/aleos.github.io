@@ -1,4 +1,4 @@
-# aleos's weblog
+# aleos's page
 
 Мне несколько раз попадалась на глаза функция `flatMap`. Я много раз пользовался `map`, но не понимал, зачем нужен ещё какой-то `flatMap`? Описание функции весьма сжатое и мало что объясняет (`transform` — это единственный параметр-замыкание, который принимает эта функция):[[MORE]]
 > Return an Array containing the concatenated results of mapping transform over self.
