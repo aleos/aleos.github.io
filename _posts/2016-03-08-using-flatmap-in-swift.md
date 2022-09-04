@@ -38,7 +38,7 @@ tags: [swift, ios, dev]
     let urlString: String? = "http://apple.com"
     let url: URL? = urlString.flatMap { URL(string: $0) }
 
-##Ссылки:
+## Ссылки:
 
 [https://www.natashatherobot.com/swift-2-flatmap/](https://www.natashatherobot.com/swift-2-flatmap/)
 
