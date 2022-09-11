@@ -125,6 +125,26 @@ jobs:
 
 It's time to think about certificates and provisioning files because they are required to distribute iOS apps. There are a few different strategies to manage iOS apps' signing: [match][match] which Fastlane recommends to use, managed/manual signing. We'll use manual signing only for app's distribution. This approach gives more control over app's signing and it's really easy to switch to any another method.
 
+## Create Signing Files
+
+Firstly create a distribution certificate and provisioning profile at "[Certificates, IDs & Profiles][ Developer]" section of your  Developer account page. If you already have one skip this step.
+
+1. Create a certificate on "Certificates" section:
+	1. Certificates ↣ Create a New Certificate ↣ Apple Distribution.
+	2. Upload a [Certificate Signing Request][create-certificate].
+	3. Download Your Certificate.
+	4. Open the downloaded certificate.
+	5. Find the certificate in Keychain Access under "My Certificates" tab. Right click on this certificate and choose "Export ...". Keep default selected format: `.p12`. Set a password to protect it.
+2. Create an identifier:
+	1. Identifiers ↣ Register a new identifier ↣ App IDs ↣ Register a new identifier (App) ↣ Register an App ID
+3. Create a provisioning profile:
+	1. Profiles ↣ Register a New Provisioning Profile ↣ Distribution (Ad Hoc) ↣ Generate a Provisioning Profile
+	2. Download the newly generated provisioning profile.
+
+That's it. As a result you should have two files:
+1. A distribution certificate in `.p12` format.
+2. A distribution provisioning profile.
+
 
 
 
@@ -157,6 +177,11 @@ It is possible to override build options with providing an `.xcconfig`, i.e. add
 
 [final-project]: https://github.com/aleos/github-actions-ios "GitHub Actions for iOS"
 [github-actions-docs]: https://docs.github.com/actions "GitHub Actions"
+[match]: https://codesigning.guide "codesigning.guide concept"
+[ Developer]: https://developer.apple.com/account/resources " Developer"
+[create-certificate]: https://help.apple.com/developer-account/#/devbfa00fef7 "Create a certificate signing request"
+
+
 [xcpretty]: https://github.com/xcpretty/xcpretty "xc|pretty"
 
 ==Link to Build settings reference:== [build-settings-reference]: https://help.apple.com/xcode/mac/current/#/itcaec37c2a6 "Build settings reference"
