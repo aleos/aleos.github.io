@@ -84,7 +84,7 @@ The first step of the new workflow is build the app to be able to run tests on t
 
 Commit and push these changes. You can see status of the workflow run on Actions tab of your repository on GitHub:
 
-![Workflow Status](/docs/assets/build.png)
+![Workflow Status](/docs/assets/github-actions-ios/build.png)
 
 ### Test
 
@@ -133,7 +133,7 @@ It's time to think about certificates and provisioning files because they are re
 
 Firstly create a distribution certificate and provisioning profile at "[Certificates, IDs & Profiles][ Developer]" section of your  Developer account page. If you already have one skip this step.
 
-1. Create a certificate on "Certificates" section:
+1. Create a signing certificate on the "Certificates" section:
 	1. Certificates ↣ Create a New Certificate ↣ Apple Distribution.
 	2. Upload a [Certificate Signing Request][create-certificate].
 	3. Download Your Certificate.
@@ -149,43 +149,22 @@ That's it. As a result you should have two files:
 1. A distribution certificate in `.p12` format.
 2. A distribution provisioning profile.
 
+### Add GitHub Repository Secrets
 
+You can store the certificate and the provisioning profile file in the same repository, but there are safer methods, especially if it's a public repository. [match][match] recommends to use another private repository for it. But there is another option: GitHub Repository Secrets. it's located on your project on GitHub: Settings ↣ Secrets ↣ Actions. But there is a problem with such a method: it doesn't support files. To store files there convert their content to `base64` format. Additionally you can encrypt them if you want even more security.
 
+Following command encode file to `base64` format and put the result in your clipboard:
 
----
+```zsh
+base64 <file> | pbcopy
+```
 
-###### ==About Fastlane?==
+Use it for the `.p12` certificate file. Create a new repository secret with value from your pasteboard and name it `DISTRIBUTION_CERTIFICATE_BASE64`. Create another secret `DISTRIBUTION_CERTIFICATE_PASSWORD` with value of certificate's password (you set the password when exported the certificate from the Keychain Access app). Create one more secret for the provisioning profile. Name it `ADHOC_PROVISIONING_PROFILE_BASE64`.
 
-There is Fastlane to make CI/CD process easier but what if you don't want to have one more dependancy or want to have more control? There is `xcodebuild` utility from the Xcode Command Line Tools. Fastlane also uses it internally to build projects. It's not as hard to use `xcodebuild` directly as it looks like, but requires some knowledge.
-
-
-###### ==xcconfig==
-
-It is possible to override build options with providing an `.xcconfig`, i.e. add `⍺` to target's name and use a different icon for beta builds.
-
-
-###### ==Useful xcodebuild info parameters:==
-- `-showBuildTimingSummary`
-           Display a report of the timings of all the commands invoked during the build.
-- `-enableCodeCoverage [YES | NO]`
-           Turns code coverage on or off during testing. This overrides the setting for the test action of a scheme in a workspace.
-
-###### ==xc|pretty and xc|beautify==
-
-`xcodebuild` prints to the terminal all commands it runs and this output is really long and nearly unreadable especially for big projects. There is a utility to fix this: [xcpretty](xcpretty).
-
-###### ==Compile and deploy the Swift-DocC documentation?==
-
-###### ==Use xcrun simctl to speed up tests on CI==
-
+![Repository Secrets](/docs/assets/github-actions-ios/repository-secrets.png)
 
 [final-project]: https://github.com/aleos/github-actions-ios "GitHub Actions for iOS"
 [github-actions-docs]: https://docs.github.com/actions "GitHub Actions"
 [match]: https://codesigning.guide "codesigning.guide concept"
 [ Developer]: https://developer.apple.com/account/resources " Developer"
 [create-certificate]: https://help.apple.com/developer-account/#/devbfa00fef7 "Create a certificate signing request"
-
-
-[xcpretty]: https://github.com/xcpretty/xcpretty "xc|pretty"
-
-==Link to Build settings reference:== [build-settings-reference]: https://help.apple.com/xcode/mac/current/#/itcaec37c2a6 "Build settings reference"
