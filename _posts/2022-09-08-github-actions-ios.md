@@ -7,7 +7,7 @@ date: 2022-09-08T07:47:43Z
 
 Let's make GitHub Actions workflow for an iOS app project. The final workflow is on [GitHub][final-project].
 
-# Build an iOS App
+## Build an iOS App
 
 `xcodebuild` is used to build iOS projects. Its format can be found on `man xcode`:
 
@@ -50,11 +50,11 @@ Command line invocation:
 
 It was easy, right? By default `xcodebuild` automatically finds a project in the current directory and uses action `build` and configuration *Release*. It's interesting that while the build scheme isn't specified (as in this case), `xcodebuild` puts the build products in the `./build` folder. But otherwise it puts them in the `Derived Data` folder. to avoid accidentally committing its contents, it's a good idea to add `./build` directory to `.gitignore`.
 
-# Create a Test Workflow
+## Create a Test Workflow
 
 CI/CD consists of two parts. Let's tackle the first part: CI.
 
-## Build
+### Build
 
 Create a file named `test.yml` in a `.github/workflows` directory in your repository. 
 Copy the following YAML contents into the `test.yml` file:
@@ -86,7 +86,7 @@ Commit and push these changes. You can see status of the workflow run on Actions
 
 ![Workflow Status](/docs/assets/build.png)
 
-## Test
+### Test
 
 Now we are ready to add a test step and run unit and UI tests. It's very similar to build step:
 
@@ -102,9 +102,9 @@ Now we are ready to add a test step and run unit and UI tests. It's very similar
 
 It will run tests using the binaries that were built at the previous step.
 
-# Archive an iOS App
+## Archive an iOS App
 
-Create a new workflow yaml: `deploy.yml` with the following content:
+Create a new workflow file `distribute.yml` with the following content:
 
 ```yaml
 name: Distribute
@@ -129,7 +129,7 @@ jobs:
 
 It's time to think about certificates and provisioning files because they are required to distribute iOS apps. There are a few different strategies to manage iOS apps' signing: [match][match] which Fastlane recommends to use, managed/manual signing. We'll use manual signing only for app's distribution. This approach gives more control over app's signing and it's really easy to switch to any another method.
 
-## Create Signing Files
+### Create Signing Files
 
 Firstly create a distribution certificate and provisioning profile at "[Certificates, IDs & Profiles][ Developer]" section of your  Developer account page. If you already have one skip this step.
 
