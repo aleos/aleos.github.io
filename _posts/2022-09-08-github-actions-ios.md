@@ -3,11 +3,19 @@ title: "GitHub Actions for iOS apps"
 date: 2022-09-08T07:47:43Z
 ---
 
-There is Fastlane to make CI/CD process easier but what if you don't want to have one more dependancy or want to have more control? There is `xcodebuild` utility from the Xcode Command Line Tools. Fastlane also uses it internally to build projects. It's not so hard to use `xcodebuild` directly as it looks like, but requires some knowledge. Let's dive into this topic and make GitHub Actions workflow for an iOS app project. The final workflow is [here](https://github.com/aleos/github-actions-ios) on GitHub.
+{{TOC}}
 
-# Build iOS app
+Let's make GitHub Actions workflow for an iOS app project. The final workflow is on [GitHub][final-project].
 
-`xcodebuild` is used to build iOS projects. To check its version run:
+# Build an iOS app
+
+`xcodebuild` is used to build iOS projects. Its format can be found on `man xcode`:
+
+```
+`xcodebuild [-project name.xcodeproj] -scheme schemename [[-destination destinationspecifier] ...] [-destination-timeout value] [-configuration configurationname] [-sdk [sdkfullpath | sdkname]] [action ...] [buildsetting=value ...] [-userdefault=value ...]`
+```
+
+To check Xcode's version run:
 
 ```zsh
 xcodebuild -version
@@ -16,8 +24,94 @@ xcodebuild -version
 Output:
 
 ```zsh
-> xcodebuild -version
+% xcodebuild -version
 Xcode 14.0
 Build version 14A309
 ```
 
+Check that it's the needed version. If there are a few Xcode versions installed on the machine, current Xcode version can be changed by `xcode-select`:
+
+```zsh
+sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+```
+
+Run `xcodebuild` to build your project (it have to be run from the project's directory):
+
+```zsh
+> xcodebuild
+Command line invocation:
+...
+** BUILD SUCCEEDED **
+```
+
+It was easy, right? By default `xcodebuild` automatically finds a project in the current directory and uses action `build` and configuration *Release*. It's interesting that while the build scheme isn't specified (as in this case), `xcodebuild` puts the build products in the `./build` folder. But otherwise it puts them in the `Derived Data` folder. to avoid accidentally committing its contents, it's a good idea to add `./build` directory to `.gitignore`.
+
+# Create 🧪 Test workflow
+
+CI/CD consists of two parts. Let's tackle the first part: CI.
+
+Create a file named `test.yml` in a `.github/workflows` directory in your repository. 
+Copy the following YAML contents into the `test.yml` file:
+
+```yaml
+name: "🧪 Test Workflow"
+on: [push] # on every push
+jobs:
+  test:
+    name: "🛠 Build and 🧪 Test"
+    runs-on: macos-12 # there is also an option "macos-latest"
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: 🛠 Build
+        run: |
+          xcodebuild \
+            -project App.xcodeproj \
+            -scheme App \
+            -destination "platform=iOS Simulator,name=iPhone 14 Pro" \
+            build-for-testing
+```
+
+For more information about GitHub Actions, see "[GitHub Docs][github-actions-docs]".
+
+The first step of the new workflow is build the app to be able to run tests on the next step. `build-for-testing` action builds the app and associated tests. This requires specifying a scheme. To see available schemes run `xcodebuild -list`, and for available destinations `xcodebuild -showdestinations`. At this step we don't specify provisioning profiles and sign keys yet, because simulator builds don't require them.
+
+Commit and push these changes. You can see status of the workflow run on Actions tab of your repository on GitHub:
+
+![Workflow Status](/docs/assets/build.png)
+
+
+
+
+---
+
+###### ==About Fastlane?==
+
+There is Fastlane to make CI/CD process easier but what if you don't want to have one more dependancy or want to have more control? There is `xcodebuild` utility from the Xcode Command Line Tools. Fastlane also uses it internally to build projects. It's not as hard to use `xcodebuild` directly as it looks like, but requires some knowledge.
+
+
+###### ==xcconfig==
+
+It is possible to override build options with providing an `.xcconfig`, i.e. add `⍺` to target's name and use a different icon for beta builds.
+
+
+###### ==Useful xcodebuild info parameters:==
+- `-showBuildTimingSummary`
+           Display a report of the timings of all the commands invoked during the build.
+- `-enableCodeCoverage [YES | NO]`
+           Turns code coverage on or off during testing. This overrides the setting for the test action of a scheme in a workspace.
+
+###### ==xc|pretty and xc|beautify==
+
+`xcodebuild` prints to the terminal all commands it runs and this output is really long and nearly unreadable especially for big projects. There is a utility to fix this: [xcpretty](xcpretty).
+
+###### ==Compile and deploy the Swift-DocC documentation?==
+
+###### ==Use xcrun simctl to speed up tests on CI==
+
+
+[final-project]: https://github.com/aleos/github-actions-ios "GitHub Actions for iOS"
+[github-actions-docs]: https://docs.github.com/actions "GitHub Actions"
+[xcpretty]: https://github.com/xcpretty/xcpretty "xc|pretty"
+
+==Link to Build settings reference:== [build-settings-reference]: https://help.apple.com/xcode/mac/current/#/itcaec37c2a6 "Build settings reference"
