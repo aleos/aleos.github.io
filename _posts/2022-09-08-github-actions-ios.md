@@ -7,12 +7,12 @@ date: 2022-09-08T07:47:43Z
 
 Let's make GitHub Actions workflow for an iOS app project. The final workflow is on [GitHub][final-project].
 
-# Build an iOS app
+# Build an iOS App
 
 `xcodebuild` is used to build iOS projects. Its format can be found on `man xcode`:
 
 ```
-`xcodebuild [-project name.xcodeproj] -scheme schemename [[-destination destinationspecifier] ...] [-destination-timeout value] [-configuration configurationname] [-sdk [sdkfullpath | sdkname]] [action ...] [buildsetting=value ...] [-userdefault=value ...]`
+xcodebuild [-project name.xcodeproj] -scheme schemename [[-destination destinationspecifier] ...] [-destination-timeout value] [-configuration configurationname] [-sdk [sdkfullpath | sdkname]] [action ...] [buildsetting=value ...] [-userdefault=value ...]
 ```
 
 To check Xcode's version run:
@@ -46,9 +46,11 @@ Command line invocation:
 
 It was easy, right? By default `xcodebuild` automatically finds a project in the current directory and uses action `build` and configuration *Release*. It's interesting that while the build scheme isn't specified (as in this case), `xcodebuild` puts the build products in the `./build` folder. But otherwise it puts them in the `Derived Data` folder. to avoid accidentally committing its contents, it's a good idea to add `./build` directory to `.gitignore`.
 
-# Create 🧪 Test workflow
+# Create a Test Workflow
 
 CI/CD consists of two parts. Let's tackle the first part: CI.
+
+## Build
 
 Create a file named `test.yml` in a `.github/workflows` directory in your repository. 
 Copy the following YAML contents into the `test.yml` file:
@@ -74,11 +76,54 @@ jobs:
 
 For more information about GitHub Actions, see "[GitHub Docs][github-actions-docs]".
 
-The first step of the new workflow is build the app to be able to run tests on the next step. `build-for-testing` action builds the app and associated tests. This requires specifying a scheme. To see available schemes run `xcodebuild -list`, and for available destinations `xcodebuild -showdestinations`. At this step we don't specify provisioning profiles and sign keys yet, because simulator builds don't require them.
+The first step of the new workflow is build the app to be able to run tests on the next step. `build-for-testing` action builds the app and associated tests. This requires specifying a scheme. To see available schemes run `xcodebuild -list`, and for available destinations `xcodebuild -showdestinations`. You can choose any other available simulator. At this step we don't specify provisioning profiles and sign keys yet, because simulator builds don't require them.
 
 Commit and push these changes. You can see status of the workflow run on Actions tab of your repository on GitHub:
 
 ![Workflow Status](/docs/assets/build.png)
+
+## Test
+
+Now we are ready to add a test step and run unit and UI tests. It's very similar to build step:
+
+```yaml
+- name: 🧪 Test
+  run: |
+    xcodebuild \
+      -project App.xcodeproj \
+      -scheme App \
+      -destination "platform=iOS Simulator,name=iPhone 14 Pro" \
+      test-without-building
+```
+
+It will run tests using the binaries that were built at the previous step.
+
+# Archive an iOS App
+
+Create a new workflow yaml: `deploy.yaml` with the following content:
+
+```
+name: Distribute
+
+on:
+  push:
+    branches: [ $default-branch ]
+  pull_request:
+    branches: [ $default-branch ]
+
+env:
+  DEVELOPER_DIR: /Applications/Xcode_14.0.app/Contents/Developer
+
+jobs:
+  distribute:
+    name: Distribute
+    runs-on: macos-12
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+```
+
+It's time to think about certificates and provisioning files because they are required to distribute iOS apps. There are a few different strategies to manage iOS apps' signing: [match][match] which Fastlane recommends to use, managed/manual signing. We'll use manual signing only for app's distribution. This approach gives more control over app's signing and it's really easy to switch to any another method.
 
 
 
