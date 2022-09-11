@@ -104,9 +104,9 @@ It will run tests using the binaries that were built at the previous step.
 
 # Archive an iOS App
 
-Create a new workflow yaml: `deploy.yaml` with the following content:
+Create a new workflow yaml: `deploy.yml` with the following content:
 
-```
+```yaml
 name: Distribute
 
 on:
