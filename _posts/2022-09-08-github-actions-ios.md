@@ -11,8 +11,12 @@ Let's make GitHub Actions workflow for an iOS app project. The final workflow is
 
 `xcodebuild` is used to build iOS projects. Its format can be found on `man xcode`:
 
-```
-xcodebuild [-project name.xcodeproj] -scheme schemename [[-destination destinationspecifier] ...] [-destination-timeout value] [-configuration configurationname] [-sdk [sdkfullpath | sdkname]] [action ...] [buildsetting=value ...] [-userdefault=value ...]
+```zsh
+xcodebuild [-project name.xcodeproj] -scheme schemename
+           [[-destination destinationspecifier] ...]
+           [-destination-timeout value] [-configuration configurationname]
+           [-sdk [sdkfullpath | sdkname]] [action ...]
+           [buildsetting=value ...] [-userdefault=value ...]
 ```
 
 To check Xcode's version run:
