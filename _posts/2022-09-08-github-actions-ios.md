@@ -128,16 +128,19 @@ It's time to think about certificates and provisioning files because they are re
 Firstly create a distribution certificate and provisioning profile at "[Certificates, IDs & Profiles][ Developer]" section of your  Developer account page. If you already have one skip this step.
 
 1. Create a signing certificate on the "Certificates" section:
-	1. Certificates ↣ Create a New Certificate ↣ Apple Distribution.
-	2. Upload a [Certificate Signing Request][create-certificate].
-	3. Download Your Certificate.
-	4. Open the downloaded certificate.
-	5. Find the certificate in Keychain Access under "My Certificates" tab. Right click on this certificate and choose "Export ...". Keep default selected format: `.p12`. Set a password to protect it.
+    1. Certificates ↣ Create a New Certificate ↣ Apple Distribution.
+    2. Upload a [Certificate Signing Request][create-certificate].
+    3. Download Your Certificate.
+    4. Open the downloaded certificate: it'll be added to Keychain Access.
+    5. Find the certificate in Keychain Access under "My Certificates" tab. Right click on this certificate and choose "Export ...". Keep default selected format: `.p12`. Set a password to protect it.
 2. Create an identifier:
-	1. Identifiers ↣ Register a new identifier ↣ App IDs ↣ Register a new identifier (App) ↣ Register an App ID
+    1. Identifiers ↣ Register a new identifier ↣ App IDs ↣ Register a new identifier (App) ↣ Register an App ID
 3. Create a provisioning profile:
-	1. Profiles ↣ Register a New Provisioning Profile ↣ Distribution (Ad Hoc) ↣ Generate a Provisioning Profile
-	2. Download the newly generated provisioning profile.
+    1. Profiles ↣ Register a New Provisioning Profile ↣ Distribution (Ad Hoc) ↣ Generate a Provisioning Profile
+    2. Download the newly generated provisioning profile.
+4. Set up the project:
+    1. Open the downloaded provisioning profile or download via Xcode ↣ Preferences… ↣ Accounts ↣ Download Manual Profiles
+    2. In the Xcode in the section Signing & Capabilities of your target change filter from *All* to *Release* and uncheck *Automatically manage signing* and select the provisioning profile.
 
 That's it. As a result you should have two files:
 1. A distribution certificate in `.p12` format.
