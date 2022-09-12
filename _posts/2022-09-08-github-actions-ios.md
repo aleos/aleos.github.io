@@ -175,6 +175,57 @@ Instead of doing it ourselves we'll use the `import-codesign-certs` action from 
 ```
 
 
+### Install the Provisioning Profile
+
+Add a new step for importing the provisioning profile. How to read it from GitHub Secrets? Read the secret into an environment variable:
+
+```yaml
+env:
+  ADHOC_PROVISIONING_PROFILE_BASE64: ${{ secrets.ADHOC_PROVISIONING_PROFILE_BASE64 }}
+```
+
+Then make a couple of variables in a `run` section (replace provisioning filename with yours):
+
+```zsh
+PROVISIONING_PROFILE_FILENAME=App_Ad_hoc.mobileprovision
+PROVISIONING_PROFILE_PATH=${RUNNER_TEMP}/${PROVISIONING_PROFILE_FILENAME}
+```
+
+Import provisioning profile from secrets:
+
+```zsh
+echo -n "${ADHOC_PROVISIONING_PROFILE_BASE64}" | base64 --decode --output ${PROVISIONING_PROFILE_PATH}
+```
+
+Rename profile using its UUID and put it into the folder where Xcode reads provisioning profiles from:
+
+```zsh
+PROVISIONING_PROFILE_UUID=$(grep UUID -A1 -a ${PROVISIONING_PROFILE_PATH} | grep -io "[-A-Z0-9]\{36\}")
+mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+cp ${PROVISIONING_PROFILE_PATH} ~/Library/MobileDevice/Provisioning\ Profiles/${PROVISIONING_PROFILE_UUID}.mobileprovision
+```
+
+That's it. The whole step:
+
+```yaml
+- name: 📱 Install provisioning profile
+  env:
+    ADHOC_PROVISIONING_PROFILE_BASE64: ${{ secrets.ADHOC_PROVISIONING_PROFILE_BASE64 }}
+  run: |
+    # create variables
+    PROVISIONING_PROFILE_FILENAME=App_Ad_hoc.mobileprovision
+    PROVISIONING_PROFILE_PATH=${RUNNER_TEMP}/${PROVISIONING_PROFILE_FILENAME}
+
+    # import provisioning profile from secrets
+    echo -n "${ADHOC_PROVISIONING_PROFILE_BASE64}" | base64 --decode --output ${PROVISIONING_PROFILE_PATH}
+
+    # apply provisioning profile
+    PROVISIONING_PROFILE_UUID=$(grep UUID -A1 -a ${PROVISIONING_PROFILE_PATH} | grep -io "[-A-Z0-9]\{36\}")
+    mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+    cp ${PROVISIONING_PROFILE_PATH} ~/Library/MobileDevice/Provisioning\ Profiles/${PROVISIONING_PROFILE_UUID}.mobileprovision
+```
+
+
 [final-project]: https://github.com/aleos/github-actions-ios "GitHub Actions for iOS"
 [github-actions-docs]: https://docs.github.com/actions "GitHub Actions"
 [match]: https://codesigning.guide "codesigning.guide concept"
