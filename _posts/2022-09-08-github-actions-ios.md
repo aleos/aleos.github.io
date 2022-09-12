@@ -4,9 +4,9 @@ date: 2022-09-08T07:47:43Z
 render_with_liquid: false
 ---
 
-{% raw %}
-
 {{TOC}}
+
+{% raw %}
 
 Let's make GitHub Actions workflow for an iOS app project. The final workflows are on [GitHub][final-project].
 
@@ -64,11 +64,11 @@ Copy the following YAML contents into the `test.yml` file:
 
 ```yaml
 name: "🧪 Test Workflow"
-on: [push] # on every push
+on: push
 jobs:
   test:
     name: "🛠 Build and 🧪 Test"
-    runs-on: macos-12 # there is also an option "macos-latest"
+    runs-on: macos-12
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
@@ -110,20 +110,11 @@ It will run tests using the binaries that were built at the previous step.
 It's time for the second part: CD. Create a new workflow file `distribute.yml` with the following content:
 
 ```yaml
-name: Distribute
-
-on:
-  push:
-    branches: [ $default-branch ]
-  pull_request:
-    branches: [ $default-branch ]
-
-env:
-  DEVELOPER_DIR: /Applications/Xcode_14.0.app/Contents/Developer
-
+name: 🚀 Distribute Workflow
+on: push
 jobs:
   distribute:
-    name: Distribute
+    name: 🚀 Distribute
     runs-on: macos-12
     steps:
       - name: Checkout
@@ -173,7 +164,7 @@ The signing certificate should be imported to Keychain Access. It's not an easy 
 Instead of doing it ourselves we'll use the `import-codesign-certs` action from "[Apple Github Actions][apple-github-actions]" collection that implements the most common iOS/macOS apps building tasks. So add a new step to `distribute` workflow:
 
 ```yaml
-- name: Import certificates
+- name: 📜 Import certificate
   uses: Apple-Actions/import-codesign-certs@v1
   with:
     p12-file-base64: ${{ secrets.DISTRIBUTION_CERTIFICATE_BASE64 }}
