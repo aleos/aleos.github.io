@@ -226,6 +226,23 @@ That's it. The whole step:
 ```
 
 
+### Add an Archive Step
+
+The hardest part was completed. The next step is really simple now:
+
+```yaml
+- name: 🏛 Archive
+  run: |
+    set -o pipefail && xcodebuild \
+      -project App.xcodeproj \
+      -scheme App \
+      -destination 'generic/platform=iOS' \
+      -archivePath ./App.xcarchive \
+      archive
+```
+
+It worth to mention here, that a special destination was used: `generic/platform=iOS`. It specifies any Apple iOS device instead of targeting a certain device.
+
 [final-project]: https://github.com/aleos/github-actions-ios "GitHub Actions for iOS"
 [github-actions-docs]: https://docs.github.com/actions "GitHub Actions"
 [match]: https://codesigning.guide "codesigning.guide concept"
