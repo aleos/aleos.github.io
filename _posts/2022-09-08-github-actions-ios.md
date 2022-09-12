@@ -175,6 +175,9 @@ Instead of doing it ourselves we'll use the `import-codesign-certs` action from 
   with:
     p12-file-base64: ${{ secrets.DISTRIBUTION_CERTIFICATE_BASE64 }}
     p12-password: ${{ secrets.DISTRIBUTION_CERTIFICATE_PASSWORD }}
+    
+    p12-test: {{ LKSJDFSDF }}
+    p12-test: ${{ LSKDJFLSKDF }}
 ```
 
 
