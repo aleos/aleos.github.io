@@ -14,13 +14,13 @@ Let's make GitHub Actions workflow for an iOS app project. The final workflows a
 
 `xcodebuild` is used to build iOS projects. Its format can be found on [`man xcodebuild`][man-xcodebuild]:
 
-```zsh
-xcodebuild [-project name.xcodeproj] -scheme schemename
-           [[-destination destinationspecifier] ...]
-           [-destination-timeout value] [-configuration configurationname]
-           [-sdk [sdkfullpath | sdkname]] [action ...]
-           [buildsetting=value ...] [-userdefault=value ...]
-```
+> ```zsh
+> xcodebuild [-project name.xcodeproj] -scheme schemename
+>            [[-destination destinationspecifier] ...]
+>            [-destination-timeout value] [-configuration configurationname]
+>            [-sdk [sdkfullpath | sdkname]] [action ...]
+>            [buildsetting=value ...] [-userdefault=value ...]
+> ```
 
 To check Xcode's version run:
 
