@@ -1,11 +1,12 @@
 ---
 title: "GitHub Actions for iOS apps"
 date: 2022-09-08T07:47:43Z
+render_with_liquid: false
 ---
 
 {{TOC}}
 
-Let's make GitHub Actions workflow for an iOS app project. The final workflow is on [GitHub][final-project].
+Let's make GitHub Actions workflow for an iOS app project. The final workflows are on [GitHub][final-project].
 
 ## Build an iOS App
 
@@ -175,9 +176,6 @@ Instead of doing it ourselves we'll use the `import-codesign-certs` action from 
   with:
     p12-file-base64: ${{ secrets.DISTRIBUTION_CERTIFICATE_BASE64 }}
     p12-password: ${{ secrets.DISTRIBUTION_CERTIFICATE_PASSWORD }}
-    
-    p12-test: {{ LKSJDFSDF }}
-    p12-test: ${{ LSKDJFLSKDF }}
 ```
 
 
@@ -186,3 +184,4 @@ Instead of doing it ourselves we'll use the `import-codesign-certs` action from 
 [match]: https://codesigning.guide "codesigning.guide concept"
 [ Developer]: https://developer.apple.com/account/resources " Developer"
 [create-certificate]: https://help.apple.com/developer-account/#/devbfa00fef7 "Create a certificate signing request"
+[apple-github-actions]: https://github.com/Apple-Actions "Apple Github Actions"
