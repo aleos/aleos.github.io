@@ -4,6 +4,8 @@ date: 2022-09-08T07:47:43Z
 render_with_liquid: false
 ---
 
+{% raw %}
+
 {{TOC}}
 
 Let's make GitHub Actions workflow for an iOS app project. The final workflows are on [GitHub][final-project].
@@ -185,3 +187,9 @@ Instead of doing it ourselves we'll use the `import-codesign-certs` action from 
 [ Developer]: https://developer.apple.com/account/resources " Developer"
 [create-certificate]: https://help.apple.com/developer-account/#/devbfa00fef7 "Create a certificate signing request"
 [apple-github-actions]: https://github.com/Apple-Actions "Apple Github Actions"
+
+
+
+
+
+{% endraw %}
