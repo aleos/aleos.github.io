@@ -77,7 +77,7 @@ jobs:
           xcodebuild \
             -project App.xcodeproj \
             -scheme App \
-            -destination "platform=iOS Simulator,name=iPhone 14 Pro" \
+            -destination 'platform=iOS Simulator,name=iPhone 14 Pro' \
             build-for-testing
 ```
 
@@ -99,7 +99,7 @@ Now we are ready to add a test step and run unit and UI tests. It's very similar
     xcodebuild \
       -project App.xcodeproj \
       -scheme App \
-      -destination "platform=iOS Simulator,name=iPhone 14 Pro" \
+      -destination 'platform=iOS Simulator,name=iPhone 14 Pro' \
       test-without-building
 ```
 
