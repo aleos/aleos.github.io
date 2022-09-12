@@ -104,7 +104,7 @@ It will run tests using the binaries that were built at the previous step.
 
 ## Archive an iOS App
 
-Create a new workflow file `distribute.yml` with the following content:
+It's time for the second part: CD. Create a new workflow file `distribute.yml` with the following content:
 
 ```yaml
 name: Distribute
@@ -162,6 +162,21 @@ base64 <file> | pbcopy
 Use it for the `.p12` certificate file. Create a new repository secret with value from your pasteboard and name it `DISTRIBUTION_CERTIFICATE_BASE64`. Create another secret `DISTRIBUTION_CERTIFICATE_PASSWORD` with value of certificate's password (you set the password when exported the certificate from the Keychain Access app). Create one more secret for the provisioning profile. Name it `ADHOC_PROVISIONING_PROFILE_BASE64`.
 
 ![Repository Secrets](/docs/assets/github-actions-ios/repository-secrets.png)
+
+### Import the Signing Certificate
+
+The signing certificate should be imported to Keychain Access. It's not an easy task and it requires a deep understanding how keychain works and how to control it using shell interface. The power of GitHub Actions is that there are a lot of ready-to-use actions that can solve the most of common CI/CD tasks.
+
+Instead of doing it ourselves we'll use the `import-codesign-certs` action from "[Apple Github Actions][apple-github-actions]" collection that implements the most common iOS/macOS apps building tasks. So add a new step to `distribute` workflow:
+
+```yaml
+- name: Import certificates
+  uses: Apple-Actions/import-codesign-certs@v1
+  with:
+    p12-file-base64: ${{ secrets.DISTRIBUTION_CERTIFICATE_BASE64 }}
+    p12-password: ${{ secrets.DISTRIBUTION_CERTIFICATE_PASSWORD }}
+```
+
 
 [final-project]: https://github.com/aleos/github-actions-ios "GitHub Actions for iOS"
 [github-actions-docs]: https://docs.github.com/actions "GitHub Actions"
