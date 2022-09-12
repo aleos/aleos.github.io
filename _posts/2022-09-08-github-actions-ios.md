@@ -12,7 +12,7 @@ Let's make GitHub Actions workflow for an iOS app project. The final workflows a
 
 ## Build an iOS App
 
-`xcodebuild` is used to build iOS projects. Its format can be found on `man xcode`:
+`xcodebuild` is used to build iOS projects. Its format can be found on [`man xcodebuild`][man-xcodebuild]:
 
 ```zsh
 xcodebuild [-project name.xcodeproj] -scheme schemename
@@ -244,6 +244,7 @@ The hardest part was completed. The next step is really simple now:
 It worth to mention here, that a special destination was used: `generic/platform=iOS`. It specifies any Apple iOS device instead of targeting a certain device.
 
 [final-project]: https://github.com/aleos/github-actions-ios "GitHub Actions for iOS"
+[man-xcodebuild]: x-man-page://xcodebuild "man xcodebuild"
 [github-actions-docs]: https://docs.github.com/actions "GitHub Actions"
 [match]: https://codesigning.guide "codesigning.guide concept"
 [ Developer]: https://developer.apple.com/account/resources " Developer"
