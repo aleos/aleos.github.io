@@ -36,7 +36,7 @@ Xcode 14.0
 Build version 14A309
 ```
 
-Check that it's the needed version. If there are a few Xcode versions installed on the machine, current Xcode version can be changed by `xcode-select`:
+Check that it's the needed version. If there are a few Xcode versions installed on the machine, current Xcode version can be changed by [`xcode-select`][man-xcode-select]:
 
 ```zsh
 sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
@@ -233,18 +233,66 @@ The hardest part was completed. The next step is really simple now:
 ```yaml
 - name: 🏛 Archive
   run: |
-    set -o pipefail && xcodebuild \
+    xcodebuild \
       -project App.xcodeproj \
       -scheme App \
       -destination 'generic/platform=iOS' \
-      -archivePath ./App.xcarchive \
+      -archivePath ./build/App.xcarchive \
       archive
 ```
 
-It worth to mention here, that a special destination was used: `generic/platform=iOS`. It specifies any Apple iOS device instead of targeting a certain device.
+It's worth mentioning here that a special destination was used: `generic/platform=iOS`. It specifies *any* Apple iOS device instead of targeting a certain device.
+
+### Export
+
+Exporting an archive requires export options plist. The easiest way to make it is to let Xcode to generate it:
+
+1. Select Product ↣ Archive in Xcode.
+2. As it completes click *Distribute App* in Organizer. Select method of distribution ↣ Ad Hoc and provide any information it asks about. Then Export to any location and open result folder.
+3. Inside the folder there is the needed file: `ExportOptions.plist`. Put it inside your iOS project. 
+
+To get more information about parameters in export options, see `xcodebuild --help`.
+Description of the `-exportArchive` parameter in [`man xcodebuild`][man-xcodebuild]:
+
+> ``` zsh
+> -exportArchive
+>      Specifies that an archive should be distributed. Requires
+>      -archivePath and -exportOptionsPlist. For exporting, -exportPath is
+>      also required. Cannot be passed along with an action.
+> ```
+
+Add an export path to the workflow:
+
+```yaml
+- name: 📦 Export
+  run: |
+    xcodebuild \
+      -exportArchive \
+      -archivePath ./build/App.xcarchive \
+      -exportPath ./build \
+      -exportOptionsPlist ExportOptions.plist
+```
+
+This step exports the archive got on the previous step to `./build` directory.
+
+## Publish
+
+
+
+### Firebase App Distribution
+
+
+
+### Apple Test Flight
+
+
+
+
+
 
 [final-project]: https://github.com/aleos/github-actions-ios "GitHub Actions for iOS"
 [man-xcodebuild]: x-man-page://xcodebuild "man xcodebuild"
+[man-xcode-select]: x-man-page://xcode-select "man xcode-select"
 [github-actions-docs]: https://docs.github.com/actions "GitHub Actions"
 [match]: https://codesigning.guide "codesigning.guide concept"
 [ Developer]: https://developer.apple.com/account/resources " Developer"
