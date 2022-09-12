@@ -275,6 +275,10 @@ Add an export path to the workflow:
 
 This step exports the archive got on the previous step to `./build` directory.
 
+That was a last step in building the app for distribution.
+
+![Archive](/docs/assets/github-actions-ios/archive.png)
+
 ## Publish
 
 
