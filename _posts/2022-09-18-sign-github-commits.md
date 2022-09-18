@@ -4,13 +4,13 @@ date: 2022-09-18
 published: false
 ---
 
-For sure you've seen that some commits are marked as `Verified` on GitHub but the most are not. GitHub automatically marks commits as `Verified` when they were made using the GitHub web interface. `Verified` means that the commits are signed by their author so you can be sure that they were made by that author. Although it can look like not a big trouble it can be a good idea to sign your own commits.
+For sure you've seen that some commits are marked as `Verified` on GitHub but the most are not. GitHub automatically marks commits as `Verified` when they were made using the GitHub web interface. It means that the commits were signed by their author so you can be sure that they were made by that author. Although it can look like not a big trouble it can be a good idea to sign your own commits.
 
 You can use `gpg` or `ssh` keys for signing[^Read more in the "[Verify commit signatures][github-docs]" section of GitHub Docs.].
 
 ## Set up GPG
 
-Install GPG. The easiest way is to use Homebrew:
+Install the [`gpg`][gnupg] utility. The easiest way is to use `Homebrew`:
 
 ```zsh
 brew install gpg
@@ -45,7 +45,7 @@ source ~/.zshrc
 
 ## Generate your GPG key pair
 
-Generate a GPG key pair[^"[Generating a new GPG key][generating-a-new-gpg-key]" on GitHub Docs]:
+Generate a GPG key pair[^"[Generating a new GPG key][generating-a-new-gpg-key]" in GitHub Docs]:
 
 ```zsh
 gpg --full-generate-key
@@ -96,7 +96,7 @@ Change (N)ame, (C)omment, (E)mail or (O)kay/(Q)uit? O
 You need a Passphrase to protect your secret key.
 ```
 
-## Add the GPG key to GitHub
+## Add your GPG key to GitHub
 
 List the GPG keys:
 
@@ -122,11 +122,13 @@ Copy your GPG key:
 gpg --armor --export 6886EEFB3208FB51 | pbcopy
 ```
 
-Add this key to "GPG keys" section in your GitHub profile settings[^"[Adding a GPG key to your GitHub account][add-gpg-github]" on GitHub Docs].
+Add this key to "GPG keys" section in your GitHub profile settings[^"[Adding a GPG key to your GitHub account][add-gpg-github]" in GitHub Docs].
 
 ![GPG keys / Add new](/docs/assets/sign-github-commits/github-gpg-keys-add-new.png)
 
-## Sign Commits
+## Sign your commits
+
+### Using command line
 
 Add signing key to the `git config`:
 
@@ -134,7 +136,7 @@ Add signing key to the `git config`:
 git config --global user.signingkey 6886EEFB3208FB51
 ```
 
-Tell `git` to sign all commits:
+Tell `git` to sign all your commits:
 
 ```zsh
 git config --global commit.gpgsign true
@@ -185,20 +187,12 @@ You should store the backup in a really safe place. To import the backup when yo
 gpg --import pgp-private-key.asc
 ```
 
-You might want to backup your revocation certificates located in `~/.gnupg/openpgp-revocs.d/`. Read more about using GnuPG in [archlinux wiki][archlinux-gnupg].
 
-
-
-==Check that pinentry-mac saved passphrase in your keychain: security find-generic-password -s 'GnuPG'==
-
-
-
-10.6 Put a passphrase into the cache
-The gpg-preset-passphrase is a utility to seed the internal cache of a running gpg-agent with passphrases. It is mainly useful for unattended machines, where the usual pinentry tool may not be used and the passphrases for the to be used keys are given at machine startup.
 
 
 
 [github-docs]: https://docs.github.com/en/authentication/managing-commit-signature-verification "Verify commit signatures"
+[gnupg]: https://www.gnupg.org "GnuPG"
 [invoking-gpg-agent]: https://www.gnupg.org/documentation/manuals/gnupg/Invoking-GPG_002dAGENT.html "Invoking GPG-AGENT"
 [generating-a-new-gpg-key]: https://docs.github.com/en/authentication/managing-commit-signature-verification/generating-a-new-gpg-key "Generating a new GPG key"
 [add-gpg-github]: https://docs.github.com/en/authentication/managing-commit-signature-verification/adding-a-gpg-key-to-your-github-account "Adding a GPG key to your GitHub account"
