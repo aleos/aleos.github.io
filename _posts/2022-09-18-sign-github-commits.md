@@ -5,7 +5,7 @@ date: 2022-09-18
 
 For sure you've seen that some commits are marked as `Verified` on GitHub but the most are not. GitHub automatically marks commits as `Verified` when they were made using the GitHub web interface. It means that the commits were signed by their author so you can be sure that they were made by that author. Although it can look like not a big trouble it can be a good idea to sign your own commits.
 
-You can use `gpg` or `ssh` keys for signing[^verify-commit-signatures].
+You can use `gpg` or `ssh` keys for signing.[^verify-commit-signatures]
 
 ## Set up GPG
 
@@ -26,7 +26,7 @@ use-agent
 EOF
 ```
 
-Set the `GPG_TTY` variable required by the `gpg-agent`[^gpg-agent-env-requirements] in `~/.zshrc`:
+Set the `GPG_TTY` variable required[^gpg-agent-env-requirements] by the `gpg-agent` in `~/.zshrc`:
 
 ```zsh
 cat << EOF >> ~/.zshrc
@@ -121,7 +121,7 @@ Copy your GPG key:
 gpg --armor --export 6886EEFB3208FB51 | pbcopy
 ```
 
-Add this key to "GPG keys" section in your GitHub profile settings[^add-gpg-github].
+Add this key to "GPG keys" section in your GitHub profile settings.[^add-gpg-github]
 
 ![GPG keys / Add new](/docs/assets/sign-github-commits/github-gpg-keys-add-new.png)
 
