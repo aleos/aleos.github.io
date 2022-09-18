@@ -142,13 +142,47 @@ Tell `git` to sign all your commits:
 git config --global commit.gpgsign true
 ```
 
-Unfortunately UI tools like Xcode unable to request the passphrase. To solve it install `pinentry-mac`:
+From now all your commits will be signed. It can be overkill for you. It is possible to set `commit.gpgsign` on per-repository basis or only for certain commits using `-S` option with `git commit` command.
+
+`gpg` will ask you to enter the passphrase to unlock the OpenPGP secret key when it's called for the first time:
+
+![Enter the passphrase](/docs/assets/sign-github-commits/passphrase-terminal.png)
+
+After making a signed commit you can check that the commit was signed:
+
+```zsh
+git log --show-signature -1
+```
+
+With a result like this:
+
+```zsh
+% git log --show-signature -1
+commit e20d871441001833f7bc024a9140236d7cac71e9 (HEAD -> sign-github-commits, origin/sign-github-commits)
+gpg: Signature made Sun Sep 18 12:08:41 2022 MSK
+gpg:                using EDDSA key E50EB4FD3B38C85B0954EC626886EEFB3208FB51
+gpg: Good signature from "Alexander Ostrovsky (GitHub key) <thealeos@gmail.com>" [ultimate]
+Author: Alexander Ostrovsky <thealeos@gmail.com>
+Date:   Sun Sep 18 12:08:40 2022 +0300
+
+    Add a new article "Sign GitHub Commits"
+```
+
+### Using apps
+
+Tell `git` a path to the `gpg` to help apps to find it:
+
+```zsh
+git config --global gpg.program $(which gpg)
+```
+
+Unfortunately not all apps can request the passphrase because `pinentry` (`gpg-agent` uses to unlock the secret key) is a command line utility. For example `Atom` can but `Xcode` can't. To solve it install `pinentry-mac`:
 
 ```zsh
 brew install pinentry-mac
 ```
 
-And tell `gnupg` the path to it using the key `pinentry-program` in the `gpg-agent.conf`:
+And tell `gnupg` the path to it in the `gpg-agent.conf`:
 
 ```zsh
 echo "pinentry-program $(which pinentry-mac)" >> ~/.gnupg/gpg-agent.conf
@@ -160,20 +194,21 @@ Then reload the `gpg-agent` to apply the changes:
 gpg-connect-agent reloadagent /bye
 ```
 
-or restart it with:
+From now if `gpg-agent` hasn't cached passphrase yet it will ask you by using a `pinentry-mac` utility:
+
+![Pinentry Mac](/docs/assets/sign-github-commits/pinentry-mac.png)
+
+Unfortunately although `pinentry-mac` has an option to save credentials to your `Keychain` I was unable to make it work. You can check whether `pinentry-mac` saved passphrase in your keychain:
 
 ```zsh
-gpgconf --kill gpg-agent
-gpgconf --launch gpg-agent
+security find-generic-password -s 'GnuPG'
 ```
 
-Configure Git to use gpg
+## 🎁 Bonus
 
-```zsh
-git config --global gpg.program $(which gpg)
-```
+You can find lots of additional info about using GnuPG in [archlinux wiki][archlinux-gnupg].
 
-## (Optional) Backup your private key
+### Backup Your Private Key
 
 To backup your private key do the following:
 
@@ -187,6 +222,7 @@ You should store the backup in a really safe place. To import the backup when yo
 gpg --import pgp-private-key.asc
 ```
 
+You might want to backup your revocation certificates located in `~/.gnupg/openpgp-revocs.d/`. 
 
 
 
