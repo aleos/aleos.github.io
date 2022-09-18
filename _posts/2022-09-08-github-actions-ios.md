@@ -285,13 +285,37 @@ That was a last step in building the app for distribution.
 
 ### Firebase App Distribution
 
+Read "[Distribute iOS apps to testers using the Firebase CLI][firebase-distribute-cli]" to get more info about using Firebase CLI tools. Google recommends using service accounts to authenticate in a CI environment. Follow instructions on "[Authenticate with a service account][auth-service-account]" and create a private key in JSON format. Encode this key in `base64` format as we did before:
 
+```zsh
+base64 app-github-actions-d059546774f3.json | pbcopy
+```
 
-### Apple Test Flight
+And set it to the GitHub Repository secret using a name `GOOGLE_APPLICATION_CREDENTIALS_BASE64`.
 
+```yaml
+- name: 🦊 Upload to Firebase App Distribution
+  env:
+    GOOGLE_APPLICATION_CREDENTIALS_BASE64: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_BASE64 }}
+  run: |
+    # Install Firebase CLI (https://firebase.google.com/docs/cli?authuser=1#mac-linux-auto-script)
+    curl -sL https://firebase.tools | bash
 
+    # App ID from GoogleService-Info.plist
+    GOOGLE_APP_ID=1:873990114327:ios:40d53aa2956a563d09e052
 
+    # Set env for Firebase tools authentication
+    export GOOGLE_APPLICATION_CREDENTIALS=${RUNNER_TEMP}/google-service-account.json
 
+    # Import Google service account credentials from the secrets
+    echo -n "${GOOGLE_APPLICATION_CREDENTIALS_BASE64}" | base64 --decode --output ${GOOGLE_APPLICATION_CREDENTIALS}
+
+    # Upload to Firebase App Distribution
+    firebase appdistribution:distribute ./build/App.ipa \
+      --app ${GOOGLE_APP_ID} \
+      --testers "tester@company.com"
+
+```
 
 
 [final-project]: https://github.com/aleos/github-actions-ios "GitHub Actions for iOS"
@@ -302,9 +326,5 @@ That was a last step in building the app for distribution.
 [ Developer]: https://developer.apple.com/account/resources " Developer"
 [create-certificate]: https://help.apple.com/developer-account/#/devbfa00fef7 "Create a certificate signing request"
 [apple-github-actions]: https://github.com/Apple-Actions "Apple Github Actions"
-
-
-
-
 
 {% endraw %}
