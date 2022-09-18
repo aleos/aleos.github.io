@@ -5,7 +5,7 @@ date: 2022-09-18
 
 For sure you've seen that some commits are marked as `Verified` on GitHub but the most are not. GitHub automatically marks commits as `Verified` when they were made using the GitHub web interface. It means that the commits were signed by their author so you can be sure that they were made by that author. Although it can look like not a big trouble it can be a good idea to sign your own commits.
 
-You can use `gpg` or `ssh` keys for signing[^Read more in the "[Verify commit signatures][github-docs]" section of GitHub Docs.].
+You can use `gpg` or `ssh` keys for signing[^verify-commit-signatures].
 
 ## Set up GPG
 
@@ -44,7 +44,7 @@ source ~/.zshrc
 
 ## Generate your GPG key pair
 
-Generate a GPG key pair[^"[Generating a new GPG key][generating-a-new-gpg-key]" in GitHub Docs]:
+Generate a GPG key pair[^gen-new-gpg-key]:
 
 ```zsh
 gpg --full-generate-key
@@ -121,7 +121,7 @@ Copy your GPG key:
 gpg --armor --export 6886EEFB3208FB51 | pbcopy
 ```
 
-Add this key to "GPG keys" section in your GitHub profile settings[^"[Adding a GPG key to your GitHub account][add-gpg-github]" in GitHub Docs].
+Add this key to "GPG keys" section in your GitHub profile settings[^add-gpg-github].
 
 ![GPG keys / Add new](/docs/assets/sign-github-commits/github-gpg-keys-add-new.png)
 
@@ -232,3 +232,8 @@ You might want to backup your revocation certificates located in `~/.gnupg/openp
 [generating-a-new-gpg-key]: https://docs.github.com/en/authentication/managing-commit-signature-verification/generating-a-new-gpg-key "Generating a new GPG key"
 [add-gpg-github]: https://docs.github.com/en/authentication/managing-commit-signature-verification/adding-a-gpg-key-to-your-github-account "Adding a GPG key to your GitHub account"
 [archlinux-gnupg]: https://wiki.archlinux.org/title/GnuPG "GnuPG"
+
+[^verify-commit-signatures]: Read more in the "[Verify commit signatures][github-docs]" section of GitHub Docs.
+[^gpg-agent-env-requirements]: `gpg-agent` environment requirements: "[Invoking GPG-AGENT][invoking-gpg-agent]"
+[^gen-new-gpg-key]: "[Generating a new GPG key][generating-a-new-gpg-key]" in GitHub Docs
+[^add-gpg-github]: "[Adding a GPG key to your GitHub account][add-gpg-github]" in GitHub Docs
