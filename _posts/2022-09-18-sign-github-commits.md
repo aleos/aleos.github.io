@@ -26,7 +26,7 @@ use-agent
 EOF
 ```
 
-Set the `GPG_TTY` variable required by the `gpg-agent`[^`gpg-agent` environment requirements: "[Invoking GPG-AGENT][invoking-gpg-agent]"] in `~/.zshrc`:
+Set the `GPG_TTY` variable required by the `gpg-agent`[^gpg-agent-env-requirements] in `~/.zshrc`:
 
 ```zsh
 cat << EOF >> ~/.zshrc
