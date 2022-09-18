@@ -1,6 +1,7 @@
 ---
 title: "Sign GitHub Commits"
 date: 2022-09-18
+tags: [github]
 ---
 
 For sure you've seen that some commits are marked as `Verified` on GitHub but the most are not. GitHub automatically marks commits as `Verified` when they were made using the GitHub web interface. It means that the commits were signed by their author so you can be sure that they were made by that author. Although it can look like not a big trouble it can be a good idea to sign your own commits.
