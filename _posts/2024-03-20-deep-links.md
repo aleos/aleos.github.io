@@ -1,8 +1,14 @@
 ---
 title: "Deep Links in SwiftUI"
 date: 2024-03-20
+render_with_liquid: false
+published: false
 tags: [swiftui, swift, ios, dev]
 ---
+
+{{TOC}}
+
+{% raw %}
 
 Deep linking is a way to open a specific screen in your app from a URL. It's a common practice for apps to support deep linking, especially when they have a lot of content. The similar approach also works for other purposes like opening a specific screen from a push notification.
 
