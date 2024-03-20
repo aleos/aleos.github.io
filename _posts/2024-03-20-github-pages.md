@@ -15,6 +15,8 @@ tags: [swiftui, swift, ios, dev]
 It is a default static site generator for GitHub Pages.
 First, install Jekyll on your local machine:
 
+https://mac.install.guide/ruby/13
+
 - install Ruby of the latest version
 
 ```zsh
