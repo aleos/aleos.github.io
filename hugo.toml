@@ -20,7 +20,7 @@ rtl = false
 colorScheme = "auto"
 
 [markup.highlight]
-style = "xcode-dark"
+# style = "xcode-dark"
 
 # [taxonomies]
 # category = "categories"
