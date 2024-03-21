@@ -17,6 +17,7 @@ since = 2019
 # commit = "https://github.com/luizdepra/hugo-coder/tree/"
 # Right To Left, shift content direction for languagues such as Arabic
 rtl = false
+avatarURL = "images/avatar.png"
 colorScheme = "auto"
 customCSS = ["css/custom.css"]
 
