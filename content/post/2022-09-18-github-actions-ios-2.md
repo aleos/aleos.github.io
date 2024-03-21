@@ -1,28 +1,19 @@
 ---
-title: "GitHub Actions for iOS apps 2"
+title: GitHub Actions for iOS apps 2
 date: 2022-09-18
-render_with_liquid: false
-published: false
+draft: true
 ---
 
-{{TOC}}
-
-{% raw %}
-
-
 ==⚠️ Upload symbols==
-
 
 ### Apple Test Flight
 
 xcrun altool \
-   --upload-app \
-   --type ios \
-   --file "${IPA_PATH}" \
-   --username ${APPSTORE_EMAIL} \
-   --password ${APPSTORE_PASSWORD}
-
-
+ --upload-app \
+ --type ios \
+ --file "${IPA_PATH}" \
+ --username ${APPSTORE_EMAIL} \
+ --password ${APPSTORE_PASSWORD}
 
 ---
 
@@ -45,6 +36,7 @@ echo "${{ github.event.pull_request.body }}" >> $CHANGELOG
 ```
 
 ### Cache package dependencies
+
 To drastically speed up archive phase.
 
 ### Put all build products into a `.build` directory
@@ -55,7 +47,7 @@ Research folders structure in Derived Data.
 
 ### How to deal with a few distribution profiles for different archive times (Ad Hoc / App Store)?
 
-⚠️ Provisioning profile was set in xcode manually. But there is a problem to distribute the app to App Store, because it uses another provisioining! 
+⚠️ Provisioning profile was set in xcode manually. But there is a problem to distribute the app to App Store, because it uses another provisioining!
 
 ### xcconfig
 
@@ -65,12 +57,12 @@ It is possible to override build options with providing an `.xcconfig`, i.e. add
 
 There is Fastlane to make CI/CD process easier but what if you don't want to have one more dependancy or want to have more control? There is `xcodebuild` utility from the Xcode Command Line Tools. Fastlane also uses it internally to build projects. It's not as hard to use `xcodebuild` directly as it looks like, but requires some knowledge.
 
-
 ### Useful xcodebuild info parameters:
+
 - `-showBuildTimingSummary`
-           Display a report of the timings of all the commands invoked during the build.
+  Display a report of the timings of all the commands invoked during the build.
 - `-enableCodeCoverage [YES | NO]`
-           Turns code coverage on or off during testing. This overrides the setting for the test action of a scheme in a workspace.
+  Turns code coverage on or off during testing. This overrides the setting for the test action of a scheme in a workspace.
 
 ### xc|pretty and xc|beautify
 
@@ -82,30 +74,28 @@ There is Fastlane to make CI/CD process easier but what if you don't want to hav
 
 ### Use environment variables in `env` section of yaml
 
-### Use build artefacts 
+### Use build artefacts
+
 - to make available
-    - test reports
-    - build log produced by `| tee`
-    - ❓
+  - test reports
+  - build log produced by `| tee`
+  - ❓
 - to break jobs into parts
   - make upload to Firebase App Distribution in a separate job using Linux image
   - parallelise some parts like uploading artefacts?
 
 ### How to reuse commands?
+
 Between:
+
 - workflows
 - jobs
 - steps
 
 ### Use symctl to speed builds up
-Preheat simulators?
 
-{% endraw %}
+Preheat simulators?
 
 [xcpretty]: https://github.com/xcpretty/xcpretty "xc|pretty"
 
 Link to Build settings reference: [build-settings-reference]: https://help.apple.com/xcode/mac/current/#/itcaec37c2a6 "Build settings reference"
-
-
-
-

@@ -1,6 +1,6 @@
 ---
-title: "Sign GitHub Commits"
-date: 2022-09-18
+title: Sign GitHub Commits
+date: 2022-09-18T00:00:00Z
 tags: [github]
 ---
 
@@ -68,19 +68,19 @@ Please select what kind of key you want:
    (9) ECC (sign and encrypt) *default*
   (10) ECC (sign only)
   (14) Existing key from card
-Your selection? 
+Your selection?
 Please select which elliptic curve you want:
    (1) Curve 25519 *default*
    (4) NIST P-384
    (6) Brainpool P-256
-Your selection? 
+Your selection?
 Please specify how long the key should be valid.
          0 = key does not expire
       <n>  = key expires in n days
       <n>w = key expires in n weeks
       <n>m = key expires in n months
       <n>y = key expires in n years
-Key is valid for? (0) 
+Key is valid for? (0)
 Key does not expire at all
 Is this correct? (y/N) y
 
@@ -222,10 +222,7 @@ You should store the backup in a really safe place. To import the backup when yo
 gpg --import pgp-private-key.asc
 ```
 
-You might want to backup your revocation certificates located in `~/.gnupg/openpgp-revocs.d/`. 
-
-
-
+You might want to backup your revocation certificates located in `~/.gnupg/openpgp-revocs.d/`.
 
 [github-docs]: https://docs.github.com/en/authentication/managing-commit-signature-verification "Verify commit signatures"
 [gnupg]: https://www.gnupg.org "GnuPG"

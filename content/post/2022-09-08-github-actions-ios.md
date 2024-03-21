@@ -1,12 +1,7 @@
 ---
-title: "GitHub Actions for iOS apps"
+title: GitHub Actions for iOS apps
 date: 2022-09-08T07:47:43Z
-render_with_liquid: false
 ---
-
-{{TOC}}
-
-{% raw %}
 
 Let's make GitHub Actions workflow for an iOS app project. The final workflows are on [GitHub][final-project].
 
@@ -51,7 +46,7 @@ Command line invocation:
 ** BUILD SUCCEEDED **
 ```
 
-It was easy, right? By default `xcodebuild` automatically finds a project in the current directory and uses action `build` and configuration *Release*. It's interesting that while the build scheme isn't specified (as in this case), `xcodebuild` puts the build products in the `./build` folder. But otherwise it puts them in the `Derived Data` folder. to avoid accidentally committing its contents, it's a good idea to add `./build` directory to `.gitignore`.
+It was easy, right? By default `xcodebuild` automatically finds a project in the current directory and uses action `build` and configuration _Release_. It's interesting that while the build scheme isn't specified (as in this case), `xcodebuild` puts the build products in the `./build` folder. But otherwise it puts them in the `Derived Data` folder. to avoid accidentally committing its contents, it's a good idea to add `./build` directory to `.gitignore`.
 
 ## Create a Test Workflow
 
@@ -59,7 +54,7 @@ CI/CD consists of two parts. Let's tackle the first part: CI.
 
 ### Build
 
-Create a file named `test.yml` in a `.github/workflows` directory in your repository. 
+Create a file named `test.yml` in a `.github/workflows` directory in your repository.
 Copy the following YAML contents into the `test.yml` file:
 
 ```yaml
@@ -128,21 +123,22 @@ It's time to think about certificates and provisioning files because they are re
 Firstly create a distribution certificate and provisioning profile at "[Certificates, IDs & Profiles][ Developer]" section of your  Developer account page. If you already have one skip this step.
 
 1. Create a signing certificate on the "Certificates" section:
-    1. Certificates ↣ Create a New Certificate ↣ Apple Distribution.
-    2. Upload a [Certificate Signing Request][create-certificate].
-    3. Download Your Certificate.
-    4. Open the downloaded certificate: it'll be added to Keychain Access.
-    5. Find the certificate in Keychain Access under "My Certificates" tab. Right click on this certificate and choose "Export ...". Keep default selected format: `.p12`. Set a password to protect it.
+   1. Certificates ↣ Create a New Certificate ↣ Apple Distribution.
+   2. Upload a [Certificate Signing Request][create-certificate].
+   3. Download Your Certificate.
+   4. Open the downloaded certificate: it'll be added to Keychain Access.
+   5. Find the certificate in Keychain Access under "My Certificates" tab. Right click on this certificate and choose "Export ...". Keep default selected format: `.p12`. Set a password to protect it.
 2. Create an identifier:
-    1. Identifiers ↣ Register a new identifier ↣ App IDs ↣ Register a new identifier (App) ↣ Register an App ID
+   1. Identifiers ↣ Register a new identifier ↣ App IDs ↣ Register a new identifier (App) ↣ Register an App ID
 3. Create a provisioning profile:
-    1. Profiles ↣ Register a New Provisioning Profile ↣ Distribution (Ad Hoc) ↣ Generate a Provisioning Profile
-    2. Download the newly generated provisioning profile.
+   1. Profiles ↣ Register a New Provisioning Profile ↣ Distribution (Ad Hoc) ↣ Generate a Provisioning Profile
+   2. Download the newly generated provisioning profile.
 4. Set up the project:
-    1. Open the downloaded provisioning profile or download via Xcode ↣ Preferences… ↣ Accounts ↣ Download Manual Profiles
-    2. In the Xcode in the section Signing & Capabilities of your target change filter from *All* to *Release* and uncheck *Automatically manage signing* and select the provisioning profile.
+   1. Open the downloaded provisioning profile or download via Xcode ↣ Preferences… ↣ Accounts ↣ Download Manual Profiles
+   2. In the Xcode in the section Signing & Capabilities of your target change filter from _All_ to _Release_ and uncheck _Automatically manage signing_ and select the provisioning profile.
 
 That's it. As a result you should have two files:
+
 1. A distribution certificate in `.p12` format.
 2. A distribution provisioning profile.
 
@@ -173,7 +169,6 @@ Instead of doing it ourselves we'll use the `import-codesign-certs` action from 
     p12-file-base64: ${{ secrets.DISTRIBUTION_CERTIFICATE_BASE64 }}
     p12-password: ${{ secrets.DISTRIBUTION_CERTIFICATE_PASSWORD }}
 ```
-
 
 ### Install the Provisioning Profile
 
@@ -225,7 +220,6 @@ That's it. The whole step:
     cp ${PROVISIONING_PROFILE_PATH} ~/Library/MobileDevice/Provisioning\ Profiles/${PROVISIONING_PROFILE_UUID}.mobileprovision
 ```
 
-
 ### Add an Archive Step
 
 The hardest part was completed. The next step is really simple now:
@@ -241,20 +235,20 @@ The hardest part was completed. The next step is really simple now:
       archive
 ```
 
-It's worth mentioning here that a special destination was used: `generic/platform=iOS`. It specifies *any* Apple iOS device instead of targeting a certain device.
+It's worth mentioning here that a special destination was used: `generic/platform=iOS`. It specifies _any_ Apple iOS device instead of targeting a certain device.
 
 ### Export
 
 Exporting an archive requires export options plist. The easiest way to make it is to let Xcode to generate it:
 
 1. Select Product ↣ Archive in Xcode.
-2. As it completes click *Distribute App* in Organizer. Select method of distribution ↣ Ad Hoc and provide any information it asks about. Then Export to any location and open result folder.
-3. Inside the folder there is the needed file: `ExportOptions.plist`. Put it inside your iOS project. 
+2. As it completes click _Distribute App_ in Organizer. Select method of distribution ↣ Ad Hoc and provide any information it asks about. Then Export to any location and open result folder.
+3. Inside the folder there is the needed file: `ExportOptions.plist`. Put it inside your iOS project.
 
 To get more information about parameters in export options, see `xcodebuild --help`.
 Description of the `-exportArchive` parameter in [`man xcodebuild`][man-xcodebuild]:
 
-> ``` zsh
+> ```zsh
 > -exportArchive
 >      Specifies that an archive should be distributed. Requires
 >      -archivePath and -exportOptionsPlist. For exporting, -exportPath is
@@ -280,8 +274,6 @@ That was a last step in building the app for distribution.
 ![Archive](/docs/assets/github-actions-ios/archive.png)
 
 ## Publish
-
-
 
 ### Firebase App Distribution
 
@@ -314,9 +306,7 @@ And set it to the GitHub Repository secret using a name `GOOGLE_APPLICATION_CRED
     firebase appdistribution:distribute ./build/App.ipa \
       --app ${GOOGLE_APP_ID} \
       --testers "tester@company.com"
-
 ```
-
 
 [final-project]: https://github.com/aleos/github-actions-ios "GitHub Actions for iOS"
 [man-xcodebuild]: x-man-page://xcodebuild "man xcodebuild"
@@ -326,5 +316,3 @@ And set it to the GitHub Repository secret using a name `GOOGLE_APPLICATION_CRED
 [ Developer]: https://developer.apple.com/account/resources " Developer"
 [create-certificate]: https://help.apple.com/developer-account/#/devbfa00fef7 "Create a certificate signing request"
 [apple-github-actions]: https://github.com/Apple-Actions "Apple Github Actions"
-
-{% endraw %}

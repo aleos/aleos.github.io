@@ -1,14 +1,9 @@
 ---
-title: "How to post on GitHub Pages?"
-date: 2024-03-20
-render_with_liquid: false
-published: false
+title: How to post on GitHub Pages?
+date: "2024-03-20T00:00:00Z"
 tags: [swiftui, swift, ios, dev]
+draft: true
 ---
-
-{{TOC}}
-
-{% raw %}
 
 ## Use Jekyll
 
@@ -42,5 +37,5 @@ source ~/.zprofile
 - install Jekyll
 
 ```zsh
-gem install jekyll
+gem install jekyll bundler
 ```
