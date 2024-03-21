@@ -18,6 +18,7 @@ since = 2019
 # Right To Left, shift content direction for languagues such as Arabic
 rtl = false
 colorScheme = "auto"
+customCSS = ["css/custom.css"]
 
 [markup.highlight]
 # style = "xcode-dark"

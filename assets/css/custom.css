@@ -1,0 +1,9 @@
+/* Lowercase title */
+.navigation .navigation-title {
+    text-transform: lowercase;
+}
+
+/* Lowercase tags */
+.content .post .post-meta .tags .tag a {
+    text-transform: lowercase;
+}
