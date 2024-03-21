@@ -7,3 +7,7 @@
 .content .post .post-meta .tags .tag a {
     text-transform: lowercase;
 }
+
+code {
+    hyphens: none; /* Prevent hyphenation */
+}
