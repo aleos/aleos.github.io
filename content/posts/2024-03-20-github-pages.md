@@ -1,6 +1,6 @@
 ---
 title: How to post on GitHub Pages?
-date: "2024-03-20T00:00:00Z"
+date: 2024-03-20T00:00:00Z
 tags: [swiftui, swift, ios, dev]
 draft: true
 ---
