@@ -1,19 +1,20 @@
 ---
 title: Deep Links in SwiftUI
-date: 2024-03-20T00:00:00Z
+date: 2024-03-20
+publishDate: 2024-03-25
 tags: [swiftui, swift, ios, dev]
-draft: true
+draft: false
 ---
 
-Deep linking is a way to open a specific screen in your app from a URL. It's a common practice for apps to support deep linking, especially when they have a lot of content. The similar approach also works for other purposes like opening a specific screen from a push notification.
+Deep linking enables sources like emails or websites to direct users to specific content inside an app, enhancing the user experience by providing direct access to app content. This feature is particularly beneficial for marketing and user engagement.
 
-## What is a deep link?
+# What is a deep link?
 
-A deep link is a URL that opens a specific screen in your app. For example, if you have a news app, you might want to open a specific article when the user taps on a link in an email or a message. Deep links are a great way to provide a seamless experience for your users.
+A deep link is a URL that directly opens a specific screen in your app. For instance, in a news app, a specific article could open when a user taps a link in an email or a message. Deep links offer a seamless user experience and can simplify development and testing, allowing you to directly open a specific screen from a browser or terminal.
 
-## How to implement deep links in SwiftUI
+# How to implement deep links in SwiftUI
 
-To implement deep links in SwiftUI, we need to use the `onOpenURL` modifier. This modifier allows us to handle deep links in our app. Here's an example of how to use it:
+SwiftUI's `onOpenURL` modifier allows your app to handle deep links. Here's how to implement it:
 
 ```swift
 import SwiftUI
@@ -31,8 +32,36 @@ struct MyApp: App {
 }
 ```
 
-In this example, we use the `onOpenURL` modifier to handle deep links in our app. When a deep link is opened, the closure passed to `onOpenURL` is called, and we can handle the deep link there.
+This example shows the `onOpenURL` modifier in action. When a deep link is activated, the closure associated with onOpenURL is executed, allowing you to manage the deep link.
 
-## Conclusion
+# Setting Up Your App to Recognize Deep Links
 
-In this article, we learned how to implement deep links in SwiftUI. Deep links are a great way to provide a seamless experience for your users, and they're easy to implement in SwiftUI. I hope this article helps you get started with deep links in your app!
+Configure your app to recognize deep links in Xcode:
+
+1. Open your project settings and select the app target.
+2. In the Info tab, add a new URL Type.
+3. Enter a unique URL Scheme for your app.
+
+For different environments, you can define unique URL Schemes. For example, use `myapp-dev` for development and `myapp-prod` for production. To do this, set a User-Defined Build Setting in the Build Settings tab and use it for the URL Schemes.[^app-url-scheme]
+
+![APP_URL_SCHEME](/docs/assets/deep-links/app-url-scheme.png)
+
+# Testing Your Deep Links
+
+To test deep links in the simulator, use the `xcrun simctl openurl` command. For instance, to open the URL <myapp://article/123>, run the following command:
+
+```shell
+xcrun simctl openurl booted myapp://article/123
+```
+
+# Wrapping Up
+
+By adding deep links to your SwiftUI app, you make it easier for users to find what they're looking for and improve their overall experience. Plus, it's a big help during app development and testing.
+
+# Read more:
+
+- [Deep linking and URL scheme in iOS][deep-linking-and-url-schemes-in-ios]
+
+[deep-linking-and-url-schemes-in-ios]: https://benoitpasquier.com/deep-linking-url-scheme-ios/#:~:text=Setting%20up%20URL%20Scheme&text=In%20Xcode%2C%20under%20your%20project,often%20reuse%20the%20app%20bundle. "Deep linking and URL scheme in iOS"
+
+[^app-url-scheme]: Solution on Stack Overflow: [How to register different URL Scheme for each app configuration (Debug, Release, ..etc)?](https://stackoverflow.com/a/65418149/191945)
