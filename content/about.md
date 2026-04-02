@@ -5,4 +5,6 @@ aliases = ["about", "about-me", "contact"]
 author = "Alexander Ostrovsky"
 +++
 
-I am a passionate iOS developer with a strong background in software engineering. I have been working in the industry for over 10 years and have been involved in a wide range of projects. I have a strong understanding of the full software development life cycle and have a passion for learning new technologies and frameworks. I am a strong advocate for clean code and best practices. I am always looking for new opportunities to learn and grow as a developer. I am currently working as an iOS Developer at [MPAX](https://lp.mpax.com).
+iOS developer with over a decade of experience building apps in Swift and SwiftUI. I care about clean, well-structured code and enjoy digging into the details of how things work under the hood.
+
+I write here about things I learn along the way — from Swift internals to CI/CD and tooling. Feel free to reach out on any of the links on the [home page](/).
