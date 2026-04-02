@@ -32,7 +32,7 @@ url = "https://github.com/aleos/"
 name = "Twitter"
 icon = "fa-brands fa-x-twitter fa-2x"
 weight = 3
-url = "https://twitter.com/aleos/"
+url = "https://x.com/aleos/"
 
 [[params.social]]
 name = "LinkedIn"
@@ -46,12 +46,6 @@ icon = "fa-solid fa-at fa-2x"
 weight = 5
 url = "mailto:thealeos@gmail.com"
 
-# Language configuration
-[languages]
-[languages.en]
-disabled = false
-[languages.ru]
-disabled = true
 
 # Menu links
 [[menu.main]]
