@@ -11,3 +11,9 @@
 code {
     hyphens: none; /* Prevent hyphenation */
 }
+
+/* Keep inline code in table headers on one line so flags like
+   `-Onone` don't break between the hyphen and the rest. */
+th code {
+    white-space: nowrap;
+}
